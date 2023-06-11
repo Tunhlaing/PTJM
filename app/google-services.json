@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "7193646533",
+    "project_id": "ptjm-59be8",
+    "storage_bucket": "ptjm-59be8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7193646533:android:73b22429ca1e8f9ecde7ac",
+        "android_client_info": {
+          "package_name": "com.example.ptjm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgDBlpnsY9r3v0nLP2k02FAdyVi4ck6x0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

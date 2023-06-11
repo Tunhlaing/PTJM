@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PTJM</string>
+    <string-array name ="specialized_fields_drop_drown">
+        <item>baker</item>
+        <item>baby sitter</item>
+        <item>cooking</item>
+        <item>home cleaning</item>
+        <item>painting</item>
+        <item>general worker</item>
+
+    </string-array>
+</resources>
+
