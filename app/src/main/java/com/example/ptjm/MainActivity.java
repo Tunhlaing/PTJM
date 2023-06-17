@@ -26,16 +26,17 @@ public class MainActivity extends AppCompatActivity {
     }
     private void onClicked() {
         bt_register_poster.setOnClickListener(v -> {
-            startActivity(new Intent(this,RegisterActivity.class));
-            finish();
+            startActivity(new Intent(this,RegisterActivity.class).putExtra("posterType",1));
+
+
         });
         bt_register_seeker.setOnClickListener(v -> {
-            startActivity(new Intent(this,RegisterActivity.class));
-            finish();
+            startActivity(new Intent(this,RegisterActivity.class).putExtra("posterType",0));
+
         });
         bt_login.setOnClickListener((v -> {
             startActivity(new Intent(this,LoginActivity.class));
-            finish();
+
         }));
     }
 

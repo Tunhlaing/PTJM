@@ -41,6 +41,9 @@
             android:id="@+id/et_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="2"
+            android:digits="0123456789"
             android:hint="age"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>

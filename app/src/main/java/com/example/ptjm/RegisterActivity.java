@@ -3,6 +3,7 @@ package com.example.ptjm;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -32,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton rbMale, rbFemale;
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterItems;
-    String [] fields = {"baker","baby sitter","cooker","home maid","painter","general worker"};
+   // String [] fields = {"baker","baby sitter","cooker","home maid","painter","general worker"};
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
@@ -48,19 +49,19 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         initView();
         onclick();
-        setUI();
-
-            }
+        }
 
     private void onclick() {
         bt_register.setOnClickListener(v -> {
-            rgGender.setOnCheckedChangeListener((group, checkedId) -> {
-                if (checkedId == rbMale.getId()) {
-                    gender = 0;
-                } else {
-                    gender = 1;
-                }
-            });
+            if (checkValidations()) {
+                Toast.makeText(this, "checkvalidatio is pass", Toast.LENGTH_SHORT).show();
+                int registerTypeValue = getIntent().getIntExtra("posterType",1);
+                    addUser(registerTypeValue);
+                    startActivity(new Intent(this,LoginActivity.class));
+
+
+
+            }
 
         });
     }
@@ -72,37 +73,62 @@ public class RegisterActivity extends AppCompatActivity {
         else if (TextUtils.isEmpty(et_age.getText().toString())) {
             ti_username.setError(null);
             ti_age.setError("Enter Age");
+            return false;
         }
         else if (TextUtils.isEmpty(et_phoneNumber.getText().toString())) {
+            ti_age.setError(null);
             ti_phoneNumber.setError("Enter Phone Number");
+            return false;
         }
         else if (TextUtils.isEmpty(et_address.getText().toString())) {
             ti_phoneNumber.setError(null);
             ti_address.setError("Enter address");
+            return false;
         }
-        else if (TextUtils.isEmpty(autoCompleteTextView.getText().toString())) {
+        else if (TextUtils.isEmpty(et_password.getText().toString())){
             ti_address.setError(null);
-            autoCompleteTextView.setError("Enter Gender");
-        }
-        else if (TextUtils.isEmpty(autoCompleteTextView.getText().toString())) {
+            ti_password.setError("please fill password");
+            return false;
+        }else if (!(et_password.length() >= 6 && et_password.length() <= 15)){
             ti_address.setError(null);
-            autoCompleteTextView.setError("Enter Gender");
+            ti_password.setError("Password must be between 6 and 15 characters");
+            return false;
+        }else if (TextUtils.isEmpty(et_confirm_password.getText().toString())){
+            ti_password.setError(null);
+            ti_confirm_password.setError("need confirm password");
+        return false;
         }
+        else if (!et_confirm_password.getText().toString().equals(et_password.getText().toString())){
+            ti_password.setError(null);
+            ti_confirm_password.setError("password don't match");
+            return false;
+        }
+        else {
+            return true;
+        }
+//        else if (TextUtils.isEmpty(autoCompleteTextView.getText().toString())) {
+//            ti_address.setError(null);
+//            autoCompleteTextView.setError("Enter Gender");
+//        }
+//        else if (TextUtils.isEmpty(autoCompleteTextView.getText().toString())) {
+//            ti_address.setError(null);
+//            autoCompleteTextView.setError("Enter Gender");
+//        }
 
-        return true;
+
     }
 
     private void initView() {
-        autoCompleteTextView = findViewById(R.id.ti_specialized_field);
-        adapterItems = new ArrayAdapter<String>(this,R.layout.list_field,fields);
-        autoCompleteTextView.setAdapter(adapterItems);
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String field = parent.getItemAtPosition(position).toString();
-
-            }
-        });
+//        autoCompleteTextView = findViewById(R.id.ti_specialized_field);
+//        adapterItems = new ArrayAdapter<String>(this,R.layout.list_field,fields);
+//        autoCompleteTextView.setAdapter(adapterItems);
+//        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String field = parent.getItemAtPosition(position).toString();
+//
+//            }
+//        });
 
         ti_username = findViewById(R.id.ti_username);
         ti_age = findViewById(R.id.ti_age);
@@ -126,22 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void setUI(){
-        id = registerModel.getUserId();
-        et_username.setText(registerModel.getUsername());
-        et_age.setText(registerModel.getAge());
-        et_address.setText(registerModel.getAddress());
-        et_phoneNumber.setText(registerModel.getPhone_number());
-        et_password.setText(registerModel.getPassword());
-        if (registerModel.getGender() == 0){
-            rbMale.setChecked(true);
-        }else {
-            rbFemale.setChecked(false);
-        }
-
-    }
-
-    private void addUser(){
+    private void addUser(int posterType){
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("user_table");
@@ -152,12 +163,13 @@ public class RegisterActivity extends AppCompatActivity {
             String age = et_age.getText().toString();
             String address = et_address.getText().toString();
             String phoneNumber = et_phoneNumber.getText().toString();
-            String specializedField = autoCompleteTextView.getText().toString();
+            int userType = posterType;
+            //String specializedField = autoCompleteTextView.getText().toString();
             String password = et_password.getText().toString();
 
-            RegisterModel registerModel1 =new RegisterModel(id,username,age,address,gender,phoneNumber,specializedField,password);
+            RegisterModel registerModel1 =new RegisterModel(id,username,age,address,phoneNumber,password,userType);
             myRef.child(id).setValue(registerModel1).addOnCompleteListener(task ->
-                Toast.makeText(RegisterActivity.this, "new user "+username+" already register!!!", Toast.LENGTH_LONG).show());
+                Toast.makeText(RegisterActivity.this, "new user "+username+" is already register!!!", Toast.LENGTH_LONG).show());
             finish();
         } catch (Exception e) {
             Toast.makeText(this, "Some error occurred when register user", Toast.LENGTH_SHORT).show();
