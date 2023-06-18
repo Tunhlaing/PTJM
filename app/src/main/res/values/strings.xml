@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">PTJM</string>
     <string-array name ="specialized_fields_drop_drown">
+        <item></item>
         <item>baker</item>
         <item>baby sitter</item>
         <item>cooking</item>
         <item>home cleaning</item>
         <item>painting</item>
         <item>general worker</item>
+        <item>no have special</item>
 
     </string-array>
+    <string spinnerRequest="please choose one item" name="TODO" />
 </resources>
 

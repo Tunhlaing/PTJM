@@ -106,25 +106,26 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:hint="address"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ti_specialized_field"
         android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:background="#DFDFDF"
-
+        android:layout_marginTop="10dp"
+        android:elevation="5dp"
         app:layout_constraintTop_toBottomOf="@id/ti_address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_specialized_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="350dp"
+            android:layout_height="55dp"
+            android:elevation="5dp"
             />
     </com.google.android.material.textfield.TextInputLayout>
 

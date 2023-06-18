@@ -1,5 +1,6 @@
 package com.example.ptjm;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -19,8 +20,12 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -28,19 +33,14 @@ public class RegisterActivity extends AppCompatActivity {
     TextInputLayout ti_username,ti_age,ti_phoneNumber,ti_address,ti_specialized_field, ti_password,ti_confirm_password;
     TextInputEditText et_username,et_age,et_phoneNumber,et_address,et_password,et_confirm_password;
     Button bt_register;
+    Spinner spinner;
 
     RadioGroup rgGender;
     RadioButton rbMale, rbFemale;
-    AutoCompleteTextView autoCompleteTextView;
-    ArrayAdapter<String> adapterItems;
-   // String [] fields = {"baker","baby sitter","cooker","home maid","painter","general worker"};
-
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
-
     String id;
     RegisterModel registerModel;
-    int gender = 0;
+    int genderId = 0;
+    Boolean existingUsername = false ;
 
 
     @Override
@@ -52,15 +52,32 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     private void onclick() {
+        rgGender.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == rbMale.getId()) {
+                genderId = 0;
+            } else {
+                genderId = 1;
+            }
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                String specializedField = selectedItem;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         bt_register.setOnClickListener(v -> {
             if (checkValidations()) {
-                Toast.makeText(this, "checkvalidatio is pass", Toast.LENGTH_SHORT).show();
-                int registerTypeValue = getIntent().getIntExtra("posterType",1);
+                Toast.makeText(this, "check validation is pass", Toast.LENGTH_SHORT).show();
+                int registerTypeValue = getIntent().getIntExtra("registerType",1);
                     addUser(registerTypeValue);
                     startActivity(new Intent(this,LoginActivity.class));
-
-
-
             }
 
         });
@@ -69,7 +86,12 @@ public class RegisterActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(et_username.getText().toString())){
             ti_username.setError("Enter Username");
             return false;
-        } // #need to check with db
+        }
+        else if (existingUser(et_username.getText().toString())){
+            ti_username.setError("chooser other username");
+            return false;
+            // #need to check with db
+        }
         else if (TextUtils.isEmpty(et_age.getText().toString())) {
             ti_username.setError(null);
             ti_age.setError("Enter Age");
@@ -106,34 +128,17 @@ public class RegisterActivity extends AppCompatActivity {
         else {
             return true;
         }
-//        else if (TextUtils.isEmpty(autoCompleteTextView.getText().toString())) {
-//            ti_address.setError(null);
-//            autoCompleteTextView.setError("Enter Gender");
-//        }
-//        else if (TextUtils.isEmpty(autoCompleteTextView.getText().toString())) {
-//            ti_address.setError(null);
-//            autoCompleteTextView.setError("Enter Gender");
-//        }
-
-
     }
 
     private void initView() {
-//        autoCompleteTextView = findViewById(R.id.ti_specialized_field);
-//        adapterItems = new ArrayAdapter<String>(this,R.layout.list_field,fields);
-//        autoCompleteTextView.setAdapter(adapterItems);
-//        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String field = parent.getItemAtPosition(position).toString();
-//
-//            }
-//        });
+
 
         ti_username = findViewById(R.id.ti_username);
         ti_age = findViewById(R.id.ti_age);
         ti_phoneNumber = findViewById(R.id.ti_phoneNumber);
+        ti_specialized_field = findViewById(R.id.ti_specialized_field);
 
+        rgGender = findViewById(R.id.rgGender);
         rbMale = findViewById(R.id.rbMale);
         rbFemale = findViewById(R.id.rbFemale);
 
@@ -150,6 +155,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         bt_register = findViewById(R.id.bt_register);
 
+        spinner = findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.specialized_fields_drop_drown, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
     }
 
     private void addUser(int posterType){
@@ -163,11 +174,17 @@ public class RegisterActivity extends AppCompatActivity {
             String age = et_age.getText().toString();
             String address = et_address.getText().toString();
             String phoneNumber = et_phoneNumber.getText().toString();
+            String specializedField = spinner.getSelectedItem().toString();
             int userType = posterType;
-            //String specializedField = autoCompleteTextView.getText().toString();
             String password = et_password.getText().toString();
+            String gender = "";
+            if (genderId == 0){
+                gender = "male";
+            }else {
+                gender = "female";
+            }
 
-            RegisterModel registerModel1 =new RegisterModel(id,username,age,address,phoneNumber,password,userType);
+            RegisterModel registerModel1 =new RegisterModel(id,username,age,address,phoneNumber,password,userType,gender,specializedField);
             myRef.child(id).setValue(registerModel1).addOnCompleteListener(task ->
                 Toast.makeText(RegisterActivity.this, "new user "+username+" is already register!!!", Toast.LENGTH_LONG).show());
             finish();
@@ -175,6 +192,27 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Some error occurred when register user", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private boolean existingUser(String newUsername){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("user_table");
+        Query usernameQuery = userRef.orderByChild("username").equalTo(newUsername);
+
+        Toast.makeText(this, "username existis "+usernameQuery.get() , Toast.LENGTH_SHORT).show();
+
+        usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return false;
     }
 
 }

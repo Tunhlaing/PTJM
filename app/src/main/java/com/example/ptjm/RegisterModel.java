@@ -8,8 +8,10 @@ public class RegisterModel {
     private String phone_number;
     private String password;
     private int userType;
+    private String gender;
+    private String specializedField;
 
-    public RegisterModel(String userId, String username, String age, String address, String phone_number, String password,int userType) {
+    public RegisterModel(String userId, String username, String age, String address, String phone_number, String password,int userType,String gender,String specializedField) {
         this.userId = userId;
         this.username = username;
         this.age = age;
@@ -17,6 +19,8 @@ public class RegisterModel {
         this.phone_number = phone_number;
         this.password = password;
         this.userType = userType;
+        this.gender = gender;
+        this.specializedField = specializedField;
     }
 
     public String getUserId() {
@@ -45,4 +49,12 @@ public class RegisterModel {
     public int getUserType(){
         return userType;
     }
+    public String getGender(){
+        return gender;
+    }
+    public String getSpecializedField(){
+        return specializedField;
+    }
+
+
 }
