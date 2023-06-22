@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,10 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton rbMale, rbFemale;
     String id;
     RegisterModel registerModel;
-    int existingUser;
+    int existingOrNot = 0;
     int genderId = 0;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         initView();
         onclick();
+
         }
 
     private void onclick() {
@@ -76,16 +77,12 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         bt_register.setOnClickListener(v -> {
-            if (checkValidations() || !(existingUser == 1)) {
-                Toast.makeText(this, "username already exist", Toast.LENGTH_SHORT).show();
-            }else {
-                int registerTypeValue = getIntent().getIntExtra("registerType",1);
-                addUser(registerTypeValue);
-                startActivity(new Intent(this,LoginActivity.class));
-            }
-
+            if(checkValidations()){
+                checkUsernameExists(et_username.getText().toString());
+           }
         });
     }
+
     private boolean checkValidations() {
         if (TextUtils.isEmpty(et_username.getText().toString())) {
             ti_username.setError("Enter Username");
@@ -96,29 +93,53 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         } else if (TextUtils.isEmpty(et_phoneNumber.getText().toString())) {
             ti_age.setError(null);
+            ti_username.setError(null);
             ti_phoneNumber.setError("Enter Phone Number");
             return false;
         } else if (TextUtils.isEmpty(et_address.getText().toString())) {
             ti_phoneNumber.setError(null);
+            ti_username.setError(null);
+            ti_age.setError(null);
+
             ti_address.setError("Enter address");
             return false;
         } else if (TextUtils.isEmpty(et_password.getText().toString())) {
             ti_address.setError(null);
+            ti_username.setError(null);
+            ti_age.setError(null);
+            ti_phoneNumber.setError(null);
+
             ti_password.setError("please fill password");
             return false;
         } else if (!(et_password.length() >= 6 && et_password.length() <= 15)) {
             ti_address.setError(null);
+            ti_username.setError(null);
+            ti_age.setError(null);
+            ti_phoneNumber.setError(null);
+            ti_address.setError(null);
+            ti_password.setError(null);
             ti_password.setError("Password must be between 6 and 15 characters");
             return false;
         } else if (TextUtils.isEmpty(et_confirm_password.getText().toString())) {
+            ti_password.setError(null);
+            ti_username.setError(null);
+            ti_age.setError(null);
+            ti_phoneNumber.setError(null);
+            ti_address.setError(null);
             ti_password.setError(null);
             ti_confirm_password.setError("need confirm password");
             return false;
         } else if (!et_confirm_password.getText().toString().equals(et_password.getText().toString())) {
             ti_password.setError(null);
+            ti_username.setError(null);
+            ti_age.setError(null);
+            ti_phoneNumber.setError(null);
+            ti_address.setError(null);
+            ti_confirm_password.setError(null);
             ti_confirm_password.setError("password don't match");
             return false;
         } else {
+            ti_confirm_password.setError(null);
             return true;
         }
     }
@@ -186,31 +207,60 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     }
-    private void existingUsername(String inputUsername) {
+//    private void existingUser(){
+//        databaseReference.child("username");
+//                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if (snapshot.hasChild(et_username.getText().toString())) {
+//                            existingOrNot = 1;
+//                        } else {
+//                            existingOrNot = 0;
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                    }
+//                });
+//    }
+    private void checkUsernameExists(String username) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("user_table");
+        Query query = usersRef.orderByChild("username").equalTo(username);
 
-        databaseReference.child("username").addListenerForSingleValueEvent(new ValueEventListener() {
-
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild(inputUsername)) {
-                    existingUser = 1;
-                    Toast.makeText(RegisterActivity.this, "username is already have, please fill other name", Toast.LENGTH_SHORT).show();
-                }else {
-                    existingUser = 0;
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean isUsernameExists = dataSnapshot.exists();
+
+                if (isUsernameExists) {
+                    ti_username.setError("Username already exists");
+                    et_username.requestFocus();
+
+                } else {
+                    int registerTypeValue = getIntent().getIntExtra("registerType", 1);
+                    addUser(registerTypeValue);
+                    Toast.makeText(RegisterActivity.this, "register success", Toast.LENGTH_SHORT).show();
+
+
+                    Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                    startActivity(intent);
+
                 }
-
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle potential errors during database query
             }
-
-
         });
-            }
+    }
 
 
 
 
 
-       }
+
+
+}
