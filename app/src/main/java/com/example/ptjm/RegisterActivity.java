@@ -28,6 +28,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
+import java.util.ArrayList;
+
 public class RegisterActivity extends AppCompatActivity {
 
     TextInputLayout ti_username,ti_age,ti_phoneNumber,ti_address,ti_specialized_field, ti_password,ti_confirm_password;
@@ -39,8 +41,9 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton rbMale, rbFemale;
     String id;
     RegisterModel registerModel;
+    int existingUser;
     int genderId = 0;
-    Boolean existingUsername = false ;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
     @Override
@@ -73,59 +76,49 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         bt_register.setOnClickListener(v -> {
-            if (checkValidations()) {
-                Toast.makeText(this, "check validation is pass", Toast.LENGTH_SHORT).show();
+            if (checkValidations() || !(existingUser == 1)) {
+                Toast.makeText(this, "username already exist", Toast.LENGTH_SHORT).show();
+            }else {
                 int registerTypeValue = getIntent().getIntExtra("registerType",1);
-                    addUser(registerTypeValue);
-                    startActivity(new Intent(this,LoginActivity.class));
+                addUser(registerTypeValue);
+                startActivity(new Intent(this,LoginActivity.class));
             }
 
         });
     }
     private boolean checkValidations() {
-        if (TextUtils.isEmpty(et_username.getText().toString())){
+        if (TextUtils.isEmpty(et_username.getText().toString())) {
             ti_username.setError("Enter Username");
             return false;
-        }
-        else if (existingUser(et_username.getText().toString())){
-            ti_username.setError("chooser other username");
-            return false;
-            // #need to check with db
-        }
-        else if (TextUtils.isEmpty(et_age.getText().toString())) {
+        } else if (TextUtils.isEmpty(et_age.getText().toString())) {
             ti_username.setError(null);
             ti_age.setError("Enter Age");
             return false;
-        }
-        else if (TextUtils.isEmpty(et_phoneNumber.getText().toString())) {
+        } else if (TextUtils.isEmpty(et_phoneNumber.getText().toString())) {
             ti_age.setError(null);
             ti_phoneNumber.setError("Enter Phone Number");
             return false;
-        }
-        else if (TextUtils.isEmpty(et_address.getText().toString())) {
+        } else if (TextUtils.isEmpty(et_address.getText().toString())) {
             ti_phoneNumber.setError(null);
             ti_address.setError("Enter address");
             return false;
-        }
-        else if (TextUtils.isEmpty(et_password.getText().toString())){
+        } else if (TextUtils.isEmpty(et_password.getText().toString())) {
             ti_address.setError(null);
             ti_password.setError("please fill password");
             return false;
-        }else if (!(et_password.length() >= 6 && et_password.length() <= 15)){
+        } else if (!(et_password.length() >= 6 && et_password.length() <= 15)) {
             ti_address.setError(null);
             ti_password.setError("Password must be between 6 and 15 characters");
             return false;
-        }else if (TextUtils.isEmpty(et_confirm_password.getText().toString())){
+        } else if (TextUtils.isEmpty(et_confirm_password.getText().toString())) {
             ti_password.setError(null);
             ti_confirm_password.setError("need confirm password");
-        return false;
-        }
-        else if (!et_confirm_password.getText().toString().equals(et_password.getText().toString())){
+            return false;
+        } else if (!et_confirm_password.getText().toString().equals(et_password.getText().toString())) {
             ti_password.setError(null);
             ti_confirm_password.setError("password don't match");
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
@@ -193,26 +186,31 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     }
+    private void existingUsername(String inputUsername) {
 
-    private boolean existingUser(String newUsername){
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("user_table");
-        Query usernameQuery = userRef.orderByChild("username").equalTo(newUsername);
+        databaseReference.child("username").addListenerForSingleValueEvent(new ValueEventListener() {
 
-        Toast.makeText(this, "username existis "+usernameQuery.get() , Toast.LENGTH_SHORT).show();
-
-        usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(inputUsername)) {
+                    existingUser = 1;
+                    Toast.makeText(RegisterActivity.this, "username is already have, please fill other name", Toast.LENGTH_SHORT).show();
+                }else {
+                    existingUser = 0;
+                }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
+
+
         });
+            }
 
-        return false;
-    }
 
-}
+
+
+
+       }
