@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         initView();
         onclick();
 
+
         }
 
     private void onclick() {
@@ -84,6 +85,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean checkValidations() {
+
+
         if (TextUtils.isEmpty(et_username.getText().toString())) {
             ti_username.setError("Enter Username");
             return false;
@@ -91,7 +94,11 @@ public class RegisterActivity extends AppCompatActivity {
             ti_username.setError(null);
             ti_age.setError("Enter Age");
             return false;
-        } else if (TextUtils.isEmpty(et_phoneNumber.getText().toString())) {
+        } else if (!(Integer.parseInt(et_age.getText().toString()) >= 18 && Integer.parseInt(et_age.getText().toString()) <=55 )){
+            ti_username.setError(null);
+            ti_age.setError("only can use between 18 yeasr old and 55 years old");
+            return false;
+        }else if (TextUtils.isEmpty(et_phoneNumber.getText().toString())) {
             ti_age.setError(null);
             ti_username.setError(null);
             ti_phoneNumber.setError("Enter Phone Number");
@@ -139,7 +146,6 @@ public class RegisterActivity extends AppCompatActivity {
             ti_confirm_password.setError("password don't match");
             return false;
         } else {
-            ti_confirm_password.setError(null);
             return true;
         }
     }
@@ -185,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
                 id = myRef.push().getKey();
             }
             String username = et_username.getText().toString();
-            String age = et_age.getText().toString();
+            int age = Integer.parseInt(et_age.getText().toString());
             String address = et_address.getText().toString();
             String phoneNumber = et_phoneNumber.getText().toString();
             String specializedField = spinner.getSelectedItem().toString();
@@ -207,24 +213,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     }
-//    private void existingUser(){
-//        databaseReference.child("username");
-//                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        if (snapshot.hasChild(et_username.getText().toString())) {
-//                            existingOrNot = 1;
-//                        } else {
-//                            existingOrNot = 0;
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                    }
-//                });
-//    }
+
     private void checkUsernameExists(String username) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("user_table");
         Query query = usersRef.orderByChild("username").equalTo(username);
@@ -257,10 +246,14 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    }
 
 
 
 
 
 
-}
+
+
+
+

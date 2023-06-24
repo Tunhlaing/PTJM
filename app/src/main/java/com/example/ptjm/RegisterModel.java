@@ -3,7 +3,7 @@ package com.example.ptjm;
 public class RegisterModel {
     private String  userId;
     private String username;
-    private String age;
+    private int age;
     private String address;
     private String phone_number;
     private String password;
@@ -11,7 +11,7 @@ public class RegisterModel {
     private String gender;
     private String specializedField;
 
-    public RegisterModel(String userId, String username, String age, String address, String phone_number, String password,int userType,String gender,String specializedField) {
+    public RegisterModel(String userId, String username, int age, String address, String phone_number, String password,int userType,String gender,String specializedField) {
         this.userId = userId;
         this.username = username;
         this.age = age;
@@ -31,7 +31,7 @@ public class RegisterModel {
         return username;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 

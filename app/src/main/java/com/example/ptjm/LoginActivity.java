@@ -33,9 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
-
-
     private void initView() {
         ti_login_username = findViewById(R.id.ti_login_username);
         ti_login_password = findViewById(R.id.ti_login_password);
