@@ -1,5 +1,7 @@
 package com.example.ptjm;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +22,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
@@ -45,6 +51,10 @@ public class RegisterActivity extends AppCompatActivity {
     RegisterModel registerModel;
     int existingOrNot = 0;
     int genderId = 0;
+    long currentTimestamp = System.currentTimeMillis();
+    String registrationDate = String.valueOf(currentTimestamp);
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
             String specializedField = spinner.getSelectedItem().toString();
             int userType = posterType;
             String password = et_password.getText().toString();
+
             String gender = "";
             if (genderId == 0){
                 gender = "male";
@@ -204,10 +215,16 @@ public class RegisterActivity extends AppCompatActivity {
                 gender = "female";
             }
 
-            RegisterModel registerModel1 =new RegisterModel(id,username,age,address,phoneNumber,password,userType,gender,specializedField);
+
+            RegisterModel registerModel1 =new RegisterModel(id,username,age,address,phoneNumber,password,userType,gender,specializedField,registrationDate);
             myRef.child(id).setValue(registerModel1).addOnCompleteListener(task ->
                 Toast.makeText(RegisterActivity.this, "new user "+username+" is already register!!!", Toast.LENGTH_LONG).show());
-            finish();
+                Toast.makeText(RegisterActivity.this, "register success ", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "addUser: registrationDate is " + registrationDate);
+                finish();
+                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(intent);
+
         } catch (Exception e) {
             Toast.makeText(this, "Some error occurred when register user", Toast.LENGTH_SHORT).show();
         }
@@ -230,11 +247,6 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     int registerTypeValue = getIntent().getIntExtra("registerType", 1);
                     addUser(registerTypeValue);
-                    Toast.makeText(RegisterActivity.this, "register success", Toast.LENGTH_SHORT).show();
-
-
-                    Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
-                    startActivity(intent);
 
                 }
             }

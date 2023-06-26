@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E4D5D5"
+    tools:context=".ui.CreateJob">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_jobCategory"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="59dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_jobCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
+            android:maxLength="15"
+            android:hint="job category"
+            android:elevation="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_jobDescription"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ti_jobCategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="59dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_jobDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
+            android:maxLength="15"
+            android:hint="job description"
+            android:elevation="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_jobLocation"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ti_jobDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="59dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_jobLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
+            android:maxLength="15"
+            android:hint="job location"
+            android:elevation="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_jobDuration"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ti_jobLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="59dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_jobDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="number"
+            android:maxLength="15"
+            android:hint="job durations(hour)"
+            android:elevation="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_ContactNumber"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ti_jobDuration"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="59dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_ContactNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="number"
+            android:maxLength="15"
+            android:hint="contact number"
+            android:elevation="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_requireWorker"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ti_ContactNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="59dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_requireWorker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="number"
+            android:maxLength="15"
+            android:hint="require worker"
+            android:elevation="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_OfferPrice"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ti_requireWorker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="59dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_OfferPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="number"
+            android:maxLength="15"
+            android:hint="offer prices (Kyats)"
+            android:elevation="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/tv_difficultyLevel"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ti_OfferPrice"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="job difficultly level"
+        tools:layout_editor_absoluteX="96dp"
+        tools:layout_editor_absoluteY="647dp" />
+    <RadioGroup
+        android:id="@+id/rgDifficulty"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="@id/ti_OfferPrice"
+        app:layout_constraintEnd_toEndOf="@id/ti_OfferPrice"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_difficultyLevel"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/any"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="any" />
+
+        <RadioButton
+            android:id="@+id/easy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="easy" />
+
+        <RadioButton
+            android:id="@+id/normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="normal" />
+
+        <RadioButton
+            android:id="@+id/hard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="hard" />
+
+    </RadioGroup>
+    <TextView
+        android:id="@+id/tv_requireLevel"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgDifficulty"
+        android:textStyle="bold"
+        android:text="job difficultly level"
+        tools:layout_editor_absoluteX="96dp"
+        tools:layout_editor_absoluteY="647dp" />
+    <RadioGroup
+        android:id="@+id/rgRequire"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="@id/ti_OfferPrice"
+        app:layout_constraintEnd_toEndOf="@id/ti_OfferPrice"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_requireLevel"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/entryLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="entry level" />
+
+        <RadioButton
+            android:id="@+id/skilledWorker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="skilled worker" />
+
+        <RadioButton
+            android:id="@+id/Expert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Normal" />
+
+        <RadioButton
+            android:id="@+id/radioExpert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Expert" />
+
+    </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_post"
+        android:layout_width="154dp"
+        android:layout_height="53dp"
+        android:text="Post"
+        app:cornerRadius="200dp"
+        app:backgroundTint="@color/button_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgRequire" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
