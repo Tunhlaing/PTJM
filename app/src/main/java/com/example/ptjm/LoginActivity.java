@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     TextInputEditText et_login_password,et_login_username;
     Button bt_register;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("user_table");
         Query query = usersRef.orderByChild("username").equalTo(username);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
+            String sentUserId = "";
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean isLoginSuccessful = false;
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Login successful, perform necessary actions
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this,JobList.class));
-                    Log.e(TAG, "onDataChange: "+ sentuserID);
+                    Log.e(TAG, "onUser: "+ sentUserId);
                     //startActivity(new Intent(LoginActivity.this, CreateJob.class).putExtra("sentuserID",sentUserId));
                     // Proceed with the desired actions after successful login
                     // For example, start a new activity or navigate to the user's dashboard
