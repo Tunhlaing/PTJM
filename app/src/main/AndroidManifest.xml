@@ -14,10 +14,10 @@
         android:theme="@style/Theme.PTJM"
         tools:targetApi="31">
         <activity
-            android:name=".JobList"
+            android:name=".JobListActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateJob"
+            android:name=".ui.CreateJobActivity"
             android:exported="false" />
         <activity
             android:name=".TestingActivity"

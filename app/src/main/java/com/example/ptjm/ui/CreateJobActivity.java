@@ -1,12 +1,8 @@
 package com.example.ptjm.ui;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,22 +10,18 @@ import android.widget.Toast;
 
 import com.example.ptjm.JobListModel;
 import com.example.ptjm.JoinModel;
-import com.example.ptjm.LoginActivity;
 import com.example.ptjm.R;
-import com.example.ptjm.RegisterActivity;
-import com.example.ptjm.RegisterModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class CreateJob extends AppCompatActivity {
+public class CreateJobActivity extends AppCompatActivity {
     TextInputLayout ti_jobCategory,ti_jobDescription,ti_jobLocation,ti_jobDuration,ti_ContactNumber,ti_requireWorker,ti_OfferPrice;
     TextInputEditText et_jobCategory,et_jobDescription,et_jobLocation,et_jobDuration,et_ContactNumber,et_requireWorker,et_OfferPrice;
     RadioGroup rgDifficulty,rgRequire;
     Button bt_post;
 
-    DatabaseReference joinRef = FirebaseDatabase.getInstance().getReference().child("user_job_relationship");
     String jobID;
     int levelID;
     String difficultyLevel = "";
@@ -77,7 +69,7 @@ public class CreateJob extends AppCompatActivity {
     private void joinUserAndJob(){
         createJob();
         DatabaseReference joinRef = FirebaseDatabase.getInstance().getReference().child("user_job_relationship");
-        String sentUserId = getIntent().getStringExtra("sentuserID");
+        String sentUserId = getIntent().getStringExtra("sentUserIDFromJobList");
         String joinId = joinRef.push().getKey();
         JoinModel joinModel = new JoinModel(sentUserId,createJob());
         joinRef.child(joinId).setValue(joinModel);

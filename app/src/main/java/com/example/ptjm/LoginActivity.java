@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.ptjm.ui.CreateJob;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -73,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (isLoginSuccessful) {
                     // Login successful, perform necessary actions
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this,JobList.class));
+                    startActivity(new Intent(LoginActivity.this, JobListActivity.class).putExtra("sentUserID",sentUserId));
                     Log.e(TAG, "onUser: "+ sentUserId);
                     //startActivity(new Intent(LoginActivity.this, CreateJob.class).putExtra("sentuserID",sentUserId));
                     // Proceed with the desired actions after successful login
