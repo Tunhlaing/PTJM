@@ -1,8 +1,11 @@
 package com.example.ptjm.ui;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,12 +31,25 @@ public class CreateJobActivity extends AppCompatActivity {
     String requireLevel = "";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_job);
         initView();
         onClick();
+        rgDifficulty.setOnCheckedChangeListener((group, checkedId) -> {
+
+            RadioButton radioButton = findViewById(checkedId);
+            difficultyLevel = radioButton.getText().toString();
+            //difficultyLevel = difficultySelectedValue;
+
+        });
+        rgRequire.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton radioButton = findViewById(checkedId);
+            requireLevel = radioButton.getText().toString();
+           // requireLevel = RequireLevelSelectedValue;
+        });
 
     }
 
@@ -63,22 +79,33 @@ public class CreateJobActivity extends AppCompatActivity {
     }
     private void onClick() {
         bt_post.setOnClickListener(v -> {
+
+            createJob();
             joinUserAndJob();
+            finish();
+
         });
     }
     private void joinUserAndJob(){
-        createJob();
+
+
         DatabaseReference joinRef = FirebaseDatabase.getInstance().getReference().child("user_job_relationship");
         String sentUserId = getIntent().getStringExtra("sentUserIDFromJobList");
         String joinId = joinRef.push().getKey();
-        JoinModel joinModel = new JoinModel(sentUserId,createJob());
-        joinRef.child(joinId).setValue(joinModel);
+        String jobID47 = createJob();
+        JoinModel joinModel = new JoinModel(sentUserId,jobID47);
+        joinRef.child(joinId).setValue(joinModel).addOnSuccessListener(aVoid ->{
+            Toast.makeText(this, "Job ID and User ID joined successfully", Toast.LENGTH_SHORT).show();
+
+        }).addOnFailureListener(e->{
+            Toast.makeText(this, "Joining failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+        });
 
     }
     private String createJob(){
-        try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("user_table");
+            DatabaseReference myRef = database.getReference("jobs_table");
             if (jobID == null) {
                 jobID = myRef.push().getKey();
             }
@@ -90,40 +117,25 @@ public class CreateJobActivity extends AppCompatActivity {
             int requireWorker = Integer.parseInt(et_requireWorker.getText().toString());
             int offerPrice = Integer.parseInt(et_OfferPrice.getText().toString());
             int jobStatus = 0;
+            //String difLevel = difficultyLevel;
+            //String reqLevel = requireLevel;
 
 
-///////---------------------------
-           rgDifficulty.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
-
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    RadioButton radioButton = findViewById(checkedId);
-                    String difficultySelectedValue = radioButton.getText().toString();
-                    difficultyLevel = difficultySelectedValue;
-
-                }
-            });
-            rgRequire.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    RadioButton radioButton = findViewById(checkedId);
-                    String RequireLevelSelectedValue = radioButton.getText().toString();
-                    requireLevel = RequireLevelSelectedValue;
-                }
-            });
             JobListModel jobListModel = new JobListModel(jobID,jobCategory,jobDescription,jobLocation,jobDuration,contactNumber,
                                                         requireWorker,offerPrice,jobStatus,difficultyLevel,requireLevel);
 
 
-           myRef.child(jobID).setValue(jobListModel).addOnCompleteListener(task -> {
-               Toast.makeText(this, "job create success", Toast.LENGTH_SHORT).show();
-           });
+           myRef.child(jobID).setValue(jobListModel).addOnSuccessListener(aVoid -> {
+                       Toast.makeText(this, "Job created successfully", Toast.LENGTH_SHORT).show();
+                   })
+                   .addOnFailureListener(e -> {
+                       Toast.makeText(this, "Job creation failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                   });
 
-        } catch (Exception e) {
-            Toast.makeText(this, "Some error occurred when register user", Toast.LENGTH_SHORT).show();
-        }
         return jobID;
-    }
+
+        }
+
 
 
 }

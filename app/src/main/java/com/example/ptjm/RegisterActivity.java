@@ -197,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void addUser(int posterType){
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("user_table");
+            DatabaseReference myRef = database.getReference("users_table");
             if (id == null) {
                 id = myRef.push().getKey();
             }
