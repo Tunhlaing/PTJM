@@ -233,7 +233,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void checkUsernameExists(String username) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("user_table");
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users_table");
         Query query = usersRef.orderByChild("username").equalTo(username);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {

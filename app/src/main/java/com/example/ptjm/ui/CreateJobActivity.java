@@ -117,8 +117,7 @@ public class CreateJobActivity extends AppCompatActivity {
             int requireWorker = Integer.parseInt(et_requireWorker.getText().toString());
             int offerPrice = Integer.parseInt(et_OfferPrice.getText().toString());
             int jobStatus = 0;
-            //String difLevel = difficultyLevel;
-            //String reqLevel = requireLevel;
+
 
 
             JobListModel jobListModel = new JobListModel(jobID,jobCategory,jobDescription,jobLocation,jobDuration,contactNumber,
