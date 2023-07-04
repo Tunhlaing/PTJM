@@ -1,4 +1,4 @@
-package com.example.ptjm;
+package com.example.ptjm.model;
 
 public class RegisterModel {
     private String registrationDate;

@@ -1,19 +1,20 @@
-package com.example.ptjm;
+package com.example.ptjm.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
-import com.example.ptjm.ui.CreateJobActivity;
+import com.example.ptjm.R;
+import com.example.ptjm.databinding.ActivityJobListBinding;
 
 public class JobListActivity extends AppCompatActivity {
 
+    private ActivityJobListBinding jobListBinding;
+
     ImageButton bt_add;
 
-    //@SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,18 +1,17 @@
 package com.example.ptjm.ui;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.ptjm.JobListModel;
-import com.example.ptjm.JoinModel;
+import com.example.ptjm.databinding.ActivityCreateJobBinding;
+import com.example.ptjm.databinding.ActivityLoginBinding;
+import com.example.ptjm.model.JobListModel;
+import com.example.ptjm.model.JoinModel;
 import com.example.ptjm.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -20,10 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateJobActivity extends AppCompatActivity {
-    TextInputLayout ti_jobCategory,ti_jobDescription,ti_jobLocation,ti_jobDuration,ti_ContactNumber,ti_requireWorker,ti_OfferPrice;
-    TextInputEditText et_jobCategory,et_jobDescription,et_jobLocation,et_jobDuration,et_ContactNumber,et_requireWorker,et_OfferPrice;
-    RadioGroup rgDifficulty,rgRequire;
-    Button bt_post;
+
+    private ActivityCreateJobBinding createJobBinding;
 
     String jobID;
     int levelID;
@@ -35,50 +32,48 @@ public class CreateJobActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_job);
-        initView();
+        createJobBinding = ActivityCreateJobBinding.inflate(getLayoutInflater());
+        setContentView(createJobBinding.getRoot());
         onClick();
-        rgDifficulty.setOnCheckedChangeListener((group, checkedId) -> {
+        createJobBinding.rgDifficulty.setOnCheckedChangeListener((group, checkedId) -> {
 
             RadioButton radioButton = findViewById(checkedId);
             difficultyLevel = radioButton.getText().toString();
-            //difficultyLevel = difficultySelectedValue;
 
         });
-        rgRequire.setOnCheckedChangeListener((group, checkedId) -> {
+        createJobBinding.rgRequire.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton radioButton = findViewById(checkedId);
             requireLevel = radioButton.getText().toString();
-           // requireLevel = RequireLevelSelectedValue;
         });
 
     }
 
-    private void initView() {
-        ti_jobCategory = findViewById(R.id.ti_jobCategory);
-        ti_jobDescription = findViewById(R.id.ti_jobDescription);
-        ti_jobLocation = findViewById(R.id.ti_jobLocation);
-        ti_jobDuration = findViewById(R.id.ti_jobDuration);
-        ti_ContactNumber = findViewById(R.id.ti_ContactNumber);
-        ti_requireWorker = findViewById(R.id.ti_requireWorker);
-        ti_OfferPrice = findViewById(R.id.ti_OfferPrice);
-
-        et_jobCategory = findViewById(R.id.et_jobCategory);
-        et_jobDescription = findViewById(R.id.et_jobDescription);
-        et_jobLocation = findViewById(R.id.et_jobLocation);
-        et_jobDuration = findViewById(R.id.et_jobDuration);
-        et_ContactNumber = findViewById(R.id.et_ContactNumber);
-        et_requireWorker = findViewById(R.id.et_requireWorker);
-        et_OfferPrice = findViewById(R.id.et_OfferPrice);
-
-        rgDifficulty = findViewById(R.id.rgDifficulty);
-        rgRequire = findViewById(R.id.rgRequire);
-
-
-        bt_post = findViewById(R.id.bt_post);
-
-    }
+//    private void initView() {
+//        ti_jobCategory = findViewById(R.id.ti_jobCategory);
+//        ti_jobDescription = findViewById(R.id.ti_jobDescription);
+//        ti_jobLocation = findViewById(R.id.ti_jobLocation);
+//        ti_jobDuration = findViewById(R.id.ti_jobDuration);
+//        ti_ContactNumber = findViewById(R.id.ti_ContactNumber);
+//        ti_requireWorker = findViewById(R.id.ti_requireWorker);
+//        ti_OfferPrice = findViewById(R.id.ti_OfferPrice);
+//
+//        et_jobCategory = findViewById(R.id.et_jobCategory);
+//        et_jobDescription = findViewById(R.id.et_jobDescription);
+//        et_jobLocation = findViewById(R.id.et_jobLocation);
+//        et_jobDuration = findViewById(R.id.et_jobDuration);
+//        et_ContactNumber = findViewById(R.id.et_ContactNumber);
+//        et_requireWorker = findViewById(R.id.et_requireWorker);
+//        et_OfferPrice = findViewById(R.id.et_OfferPrice);
+//
+//        rgDifficulty = findViewById(R.id.rgDifficulty);
+//        rgRequire = findViewById(R.id.rgRequire);
+//
+//
+//        bt_post = findViewById(R.id.bt_post);
+//
+//    }
     private void onClick() {
-        bt_post.setOnClickListener(v -> {
+        createJobBinding.btPost.setOnClickListener(v -> {
 
             createJob();
             joinUserAndJob();
@@ -109,13 +104,13 @@ public class CreateJobActivity extends AppCompatActivity {
             if (jobID == null) {
                 jobID = myRef.push().getKey();
             }
-            String jobCategory = et_jobCategory.getText().toString();
-            String jobDescription = et_jobDescription.getText().toString();
-            String jobLocation = et_jobLocation.getText().toString();
-            String jobDuration = et_jobDuration.getText().toString();
-            String contactNumber = et_ContactNumber.getText().toString();
-            int requireWorker = Integer.parseInt(et_requireWorker.getText().toString());
-            int offerPrice = Integer.parseInt(et_OfferPrice.getText().toString());
+            String jobCategory = createJobBinding.etJobCategory.getText().toString();
+            String jobDescription = createJobBinding.etJobDescription.getText().toString();
+            String jobLocation = createJobBinding.etJobLocation.getText().toString();
+            String jobDuration = createJobBinding.etJobDuration.getText().toString();
+            String contactNumber = createJobBinding.etContactNumber.getText().toString();
+            int requireWorker = Integer.parseInt(createJobBinding.etRequireWorker.getText().toString());
+            int offerPrice = Integer.parseInt(createJobBinding.etOfferPrice.getText().toString());
             int jobStatus = 0;
 
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E4D5D5"
-    tools:context=".LoginActivity">
+    tools:context=".ui.LoginActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ti_login_username"
@@ -44,12 +44,12 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:inputType="textVisiblePassword"
-            android:hint="age"
+            android:hint="password"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/bt_register"
+        android:id="@+id/bt_login"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button_color"

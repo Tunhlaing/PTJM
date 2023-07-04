@@ -1,4 +1,4 @@
-package com.example.ptjm;
+package com.example.ptjm.ui;
 
 import static android.content.ContentValues.TAG;
 
@@ -8,11 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.example.ptjm.databinding.ActivityLoginBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,30 +20,18 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextInputLayout  ti_login_username,ti_login_password;
-    TextInputEditText et_login_password,et_login_username;
-    Button bt_register;
+    private ActivityLoginBinding loginBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        initView();
+        loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(loginBinding.getRoot());
         onClicked();
 
 
     }
 
-    private void initView() {
-        ti_login_username = findViewById(R.id.ti_login_username);
-        ti_login_password = findViewById(R.id.ti_login_password);
-
-        et_login_username = findViewById(R.id.et_login_username);
-        et_login_password = findViewById(R.id.et_login_password);
-
-        bt_register = findViewById(R.id.bt_register);
-
-    }
     private void loginUser(String username, String password) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users_table");
         Query query = usersRef.orderByChild("username").equalTo(username);
@@ -91,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     private void onClicked() {
-        bt_register.setOnClickListener(v -> {
-            loginUser(et_login_username.getText().toString(),et_login_password.getText().toString());
+        loginBinding.btLogin.setOnClickListener(v -> {
+            loginUser(loginBinding.etLoginUsername.getText().toString(),loginBinding.etLoginPassword.getText().toString());
 
         });
     }

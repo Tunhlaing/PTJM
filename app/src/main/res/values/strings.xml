@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PTJM</string>
     <string-array name="specialized_fields_drop_drown">
-        <item></item>
+        <item>Please choose one specialized field</item>
         <item>baker</item>
         <item>baby sitter</item>
         <item>cooking</item>
