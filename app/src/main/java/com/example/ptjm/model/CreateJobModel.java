@@ -1,6 +1,6 @@
 package com.example.ptjm.model;
 
-public class JobListModel {
+public class CreateJobModel {
 
     private String jobId;
     private String jobCategory;
@@ -18,7 +18,7 @@ public class JobListModel {
     //    public JobListModel(){
 //
 //    }
-    public JobListModel(String jobId, String jobCategory, String jobDescription, String jobLocation, String jobDuration, String contactNumber, int requireWorker, int offerPrice, int jobStatus, String difficultyLevel, String requireLevel, String jobCreatedDateTime) {
+    public CreateJobModel(String jobId, String jobCategory, String jobDescription, String jobLocation, String jobDuration, String contactNumber, int requireWorker, int offerPrice, int jobStatus, String difficultyLevel, String requireLevel, String jobCreatedDateTime) {
         this.jobId = jobId;
         this.jobCategory = jobCategory;
         this.jobDescription = jobDescription;

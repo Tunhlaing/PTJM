@@ -3,18 +3,12 @@ package com.example.ptjm.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.ptjm.databinding.ActivityCreateJobBinding;
-import com.example.ptjm.databinding.ActivityLoginBinding;
-import com.example.ptjm.model.JobListModel;
+import com.example.ptjm.model.CreateJobModel;
 import com.example.ptjm.model.JoinModel;
-import com.example.ptjm.R;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -97,7 +91,7 @@ public class CreateJobActivity extends AppCompatActivity {
 
 
 
-            JobListModel jobListModel = new JobListModel(jobID,jobCategory,jobDescription,jobLocation,jobDuration,contactNumber,
+            CreateJobModel jobListModel = new CreateJobModel(jobID,jobCategory,jobDescription,jobLocation,jobDuration,contactNumber,
                                                         requireWorker,offerPrice,jobStatus,difficultyLevel,requireLevel,jobCreatedDateTime);
 
 
