@@ -13,11 +13,12 @@ public class JobListModel {
     private int jobStatus;
     private String difficultyLevel;
     private String requireLevel;
+    private String jobCreatedDateTime;
 
-//    public JobListModel(){
+    //    public JobListModel(){
 //
 //    }
-    public JobListModel(String jobId, String jobCategory, String jobDescription, String jobLocation, String jobDuration, String contactNumber, int requireWorker, int offerPrice, int jobStatus, String difficultyLevel, String requireLevel) {
+    public JobListModel(String jobId, String jobCategory, String jobDescription, String jobLocation, String jobDuration, String contactNumber, int requireWorker, int offerPrice, int jobStatus, String difficultyLevel, String requireLevel, String jobCreatedDateTime) {
         this.jobId = jobId;
         this.jobCategory = jobCategory;
         this.jobDescription = jobDescription;
@@ -29,6 +30,7 @@ public class JobListModel {
         this.jobStatus = jobStatus;
         this.difficultyLevel = difficultyLevel;
         this.requireLevel = requireLevel;
+        this.jobCreatedDateTime = jobCreatedDateTime;
     }
 
     public String getJobId() {
@@ -75,6 +77,10 @@ public class JobListModel {
         return requireLevel;
     }
 
+    public String getJobCreatedDateTime() {
+        return jobCreatedDateTime;
+    }
+
     public void setJobId(String jobId) {
         this.jobId = jobId;
     }
@@ -118,5 +124,10 @@ public class JobListModel {
     public void setRequireLevel(String requireLevel) {
         this.requireLevel = requireLevel;
     }
+
+    public void setJobCreatedDateTime(String jobCreatedDateTime) {
+        this.jobCreatedDateTime = jobCreatedDateTime;
+    }
 }
+
 

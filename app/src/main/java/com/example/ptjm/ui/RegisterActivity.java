@@ -27,16 +27,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding registerBinding;
 
 
     String id;
-    RegisterModel registerModel;
-    int existingOrNot = 0;
     int genderId = 0;
-    long currentTimestamp = System.currentTimeMillis();
-    String registrationDate = String.valueOf(currentTimestamp);
+
 
 
 
@@ -51,7 +51,9 @@ public class RegisterActivity extends AppCompatActivity {
         registerBinding.spinner.setAdapter(adapter);
 
 
-        }
+
+
+    }
 
     private void onclick() {
         registerBinding.rgGender.setOnCheckedChangeListener((group, checkedId) -> {
@@ -146,36 +148,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-//    private void initView() {
-//
-//        ti_username = findViewById(R.id.ti_username);
-//        ti_age = findViewById(R.id.ti_age);
-//        ti_phoneNumber = findViewById(R.id.ti_phoneNumber);
-//        ti_specialized_field = findViewById(R.id.ti_specialized_field);
-//
-//        rgGender = findViewById(R.id.rgGender);
-//        rbMale = findViewById(R.id.rbMale);
-//        rbFemale = findViewById(R.id.rbFemale);
-//
-//        ti_address = findViewById(R.id.ti_address);
-//        ti_password = findViewById(R.id.ti_password);
-//        ti_confirm_password = findViewById(R.id.ti_confirm_password);
-//
-//        et_username = findViewById(R.id.et_username);
-//        et_age = findViewById(R.id.et_age);
-//        et_phoneNumber = findViewById(R.id.et_phoneNumber);
-//        et_address = findViewById(R.id.et_address);
-//        et_password = findViewById(R.id.et_password);
-//        et_confirm_password = findViewById(R.id.et_confirm_password);
-//
-//        bt_register = findViewById(R.id.btRegister);
-//
-//        spinner = findViewById(R.id.spinner);
-//
-
-//
-//    }
-
     private void addUser(int posterType){
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -190,6 +162,10 @@ public class RegisterActivity extends AppCompatActivity {
             String specializedField = registerBinding.spinner.getSelectedItem().toString();
             int userType = posterType;
             String password = registerBinding.etPassword.getText().toString();
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String joinedDateTime = dateFormat.format(currentDate);
+
 
             String gender = "";
             if (genderId == 0){
@@ -199,11 +175,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
 
-            RegisterModel registerModel1 =new RegisterModel(id,username,age,address,phoneNumber,password,userType,gender,specializedField,registrationDate);
+            RegisterModel registerModel1 =new RegisterModel(id,username,age,address,phoneNumber,password,userType,gender,specializedField,joinedDateTime);
             myRef.child(id).setValue(registerModel1).addOnCompleteListener(task ->
                 Toast.makeText(RegisterActivity.this, "new user "+username+" is already register!!!", Toast.LENGTH_LONG).show());
                 Toast.makeText(RegisterActivity.this, "register success ", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "addUser: registrationDate is " + registrationDate);
                 finish();
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);

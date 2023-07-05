@@ -57,6 +57,9 @@ public class RegisterModel {
     public String getSpecializedField(){
         return specializedField;
     }
+    public String getRegistrationDate(){
+        return registrationDate;
+    }
 
 
 }

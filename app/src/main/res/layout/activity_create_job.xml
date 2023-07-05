@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E4D5D5"
+    android:background="#F4C6B7"
     tools:context=".ui.CreateJobActivity">
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ti_jobCategory"
@@ -24,7 +24,8 @@
             android:maxLines="1"
             android:inputType="text"
             android:maxLength="15"
-            android:hint="job category"
+            android:textStyle="bold"
+            android:hint="enter job category"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -45,7 +46,8 @@
             android:maxLines="1"
             android:inputType="text"
             android:maxLength="15"
-            android:hint="job description"
+            android:textStyle="bold"
+            android:hint="enter job description"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -66,7 +68,8 @@
             android:maxLines="1"
             android:inputType="text"
             android:maxLength="15"
-            android:hint="job location"
+            android:textStyle="bold"
+            android:hint="enter job location"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -87,7 +90,8 @@
             android:maxLines="1"
             android:inputType="number"
             android:maxLength="15"
-            android:hint="job durations(hour)"
+            android:textStyle="bold"
+            android:hint="enter job durations(hour)"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -108,7 +112,8 @@
             android:maxLines="1"
             android:inputType="number"
             android:maxLength="15"
-            android:hint="contact number"
+            android:textStyle="bold"
+            android:hint="enter contact number"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -129,7 +134,8 @@
             android:maxLines="1"
             android:inputType="number"
             android:maxLength="15"
-            android:hint="require worker"
+            android:textStyle="bold"
+            android:hint="enter require worker"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -150,7 +156,8 @@
             android:maxLines="1"
             android:inputType="number"
             android:maxLength="15"
-            android:hint="offer prices (Kyats)"
+            android:textStyle="bold"
+            android:hint="enter offer prices (Kyats)"
             android:elevation="5dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <TextView
@@ -162,7 +169,7 @@
         app:layout_constraintTop_toBottomOf="@id/ti_OfferPrice"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
-        android:text="job difficultly level"
+        android:text="choose job difficultly level"
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="647dp" />
     <RadioGroup
@@ -209,7 +216,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rgDifficulty"
         android:textStyle="bold"
-        android:text="job difficultly level"
+        android:text="choose job difficultly level"
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="647dp" />
     <RadioGroup
@@ -255,7 +262,6 @@
         android:layout_height="53dp"
         android:text="Post"
         app:cornerRadius="200dp"
-        app:backgroundTint="@color/button_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -18,6 +18,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CreateJobActivity extends AppCompatActivity {
 
     private ActivityCreateJobBinding createJobBinding;
@@ -48,30 +51,6 @@ public class CreateJobActivity extends AppCompatActivity {
 
     }
 
-//    private void initView() {
-//        ti_jobCategory = findViewById(R.id.ti_jobCategory);
-//        ti_jobDescription = findViewById(R.id.ti_jobDescription);
-//        ti_jobLocation = findViewById(R.id.ti_jobLocation);
-//        ti_jobDuration = findViewById(R.id.ti_jobDuration);
-//        ti_ContactNumber = findViewById(R.id.ti_ContactNumber);
-//        ti_requireWorker = findViewById(R.id.ti_requireWorker);
-//        ti_OfferPrice = findViewById(R.id.ti_OfferPrice);
-//
-//        et_jobCategory = findViewById(R.id.et_jobCategory);
-//        et_jobDescription = findViewById(R.id.et_jobDescription);
-//        et_jobLocation = findViewById(R.id.et_jobLocation);
-//        et_jobDuration = findViewById(R.id.et_jobDuration);
-//        et_ContactNumber = findViewById(R.id.et_ContactNumber);
-//        et_requireWorker = findViewById(R.id.et_requireWorker);
-//        et_OfferPrice = findViewById(R.id.et_OfferPrice);
-//
-//        rgDifficulty = findViewById(R.id.rgDifficulty);
-//        rgRequire = findViewById(R.id.rgRequire);
-//
-//
-//        bt_post = findViewById(R.id.bt_post);
-//
-//    }
     private void onClick() {
         createJobBinding.btPost.setOnClickListener(v -> {
 
@@ -112,11 +91,14 @@ public class CreateJobActivity extends AppCompatActivity {
             int requireWorker = Integer.parseInt(createJobBinding.etRequireWorker.getText().toString());
             int offerPrice = Integer.parseInt(createJobBinding.etOfferPrice.getText().toString());
             int jobStatus = 0;
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String jobCreatedDateTime = dateFormat.format(currentDate);
 
 
 
             JobListModel jobListModel = new JobListModel(jobID,jobCategory,jobDescription,jobLocation,jobDuration,contactNumber,
-                                                        requireWorker,offerPrice,jobStatus,difficultyLevel,requireLevel);
+                                                        requireWorker,offerPrice,jobStatus,difficultyLevel,requireLevel,jobCreatedDateTime);
 
 
            myRef.child(jobID).setValue(jobListModel).addOnSuccessListener(aVoid -> {
